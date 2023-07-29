@@ -1,0 +1,60 @@
+.result-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-modal__score {
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 3.5rem;
+    border-radius: 10px;
+    color: #141414;
+    animation: show-score 1000ms ease-in-out forwards;
+}
+
+.score-pass {
+    color: #003358;
+}
+
+.score-fail {
+    color: rgb(148, 31, 31);
+}
+
+.result-modal__button {
+    width: 75%;
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #F8F9FA;
+    transition: 200ms;
+}
+
+.result-modal__button:hover {
+    cursor: pointer;
+    background-color: #003358;
+    color: #F8F9FA;
+    border-color: #F8F9FA;
+    transform: scale(1.05);
+}
+
+.result-modal__title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #141414;
+}
+
+@keyframes show-score {
+    from {
+        opacity: 0;
+        transform: translateY(4rem);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,60 @@
+.options-button {
+    width: 60%;
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #F8F9FA;
+    transition: 200ms;
+}
+
+.options-button:hover {
+    cursor: pointer;
+    background-color: #003358;
+    color: #F8F9FA;
+    border-color: #F8F9FA;
+    transform: scale(1.05);
+}
+
+.options-button__correct {
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #BEFFCE;
+}
+
+.options-button__correct:hover {
+    cursor: default;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #BEFFCE;
+    transform: none;
+}
+
+.options-button__wrong {
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #FFBECE;
+}
+
+.options-button__wrong:hover {
+    cursor: default;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #FFBECE;
+    transform: none;
+}
+
+.options-button__disabled {
+    border: 1px solid transparent;
+    color: #141414;
+    background-color: #F8F9FA;
+}
+
+.options-button__disabled:hover {
+    cursor: default;
+    background-color: #F8F9FA;
+    color: #141414;
+    transform: none;
+}

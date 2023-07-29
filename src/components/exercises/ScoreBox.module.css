@@ -1,0 +1,12 @@
+.scorebox {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 60%;
+}
+
+.scorebox svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

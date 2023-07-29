@@ -1,0 +1,27 @@
+.exercise {
+    height: 78%;
+    display: flex;
+    justify-content: stretch;
+    width: 100%;
+    background-color: #F8F9FA;
+    transition: 500ms;
+}
+
+.exercise__question {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.exercise__options {
+    padding: 3rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}

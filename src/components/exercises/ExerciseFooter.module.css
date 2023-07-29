@@ -1,0 +1,39 @@
+.exercise-footer {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    background-color: #765379;
+    padding: 0.5rem 3rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exercise-footer p {
+    color: #F8F9FA;
+    font-size: 1.3rem;
+}
+
+.exercise-footer button {
+    padding: 0.5rem 1.2rem;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    border: 1px solid #F8F9FA;
+    color: #F8F9FA;
+    background-color: transparent;
+    transition: 200ms;
+}
+
+.exercise-footer button:hover {
+    cursor: pointer;
+    background-color: #F8F9FA;
+    color: #765379;
+    border-color: #F8F9FA;
+}
+
+.exercise-footer button:disabled {
+    cursor: default;
+    border-color: transparent;
+    background-color: transparent;
+    color: #F8F9FA;
+    opacity: 0.5;
+}
