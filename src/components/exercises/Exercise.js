@@ -1,21 +1,33 @@
 import { useEffect, useState } from "react";
 
-import ExerciseNav from "./ExerciseNav";
+import ExerciseNav from "./UI/ExerciseNav";
 import ScoreBox from "./ScoreBox";
-import OptionButton from "./OptionButton";
-import ExerciseFooter from "./ExerciseFooter";
+import ExerciseFooter from "./UI/ExerciseFooter";
 import PitchExercises from "../../exercises/pitch/PitchExercises";
-import ResultModal from "./ResultModal";
+import ResultModal from "./UI/ResultModal";
+import IntervalOptions from "./options/IntervalOptions";
+import AnswerOptions from "./options/AnswerOptions";
 
 import classes from "./Exercise.module.css";
-import IntervalOptions from "./IntervalOptions";
-import AnswerOptions from "./AnswerOptions";
+import IntervalExercises from "../../exercises/intervals/IntervalExercises";
+import NoteOptions from "./options/NoteOptions";
 
 const ExerciseSection = props => {
     const grade = props.exerciseSettings.grade.grade;
-    const pitchExercises = new PitchExercises(grade);
+    const { title, section } = props.exerciseSettings.section;
 
-    const [exercises] = useState(pitchExercises.getExerciseSet(grade));
+    let exerciseBuilder;
+
+    switch (section) {
+        case "pitch":
+            exerciseBuilder = new PitchExercises(grade);
+            break;
+        case "intervals":
+            exerciseBuilder = new IntervalExercises(grade);
+            break;
+    }
+
+    const [exercises] = useState(exerciseBuilder.getExerciseSet(grade));
     const [index, setIndex] = useState(0)
     const [currentExercise, setCurrentExercise] = useState(exercises[0]);
     const [keyName, setKeyName] = useState(undefined);
@@ -69,30 +81,19 @@ const ExerciseSection = props => {
         }
     }
 
-    const optionButtons = currentExercise.getOptions().map(option => {
-        let isCorrect = option === currentExercise.getAnswer();
-
-        return <OptionButton
-            key={option}
-            option={option}
-            isCorrect={isCorrect}
-            isCompleted={exerciseCompleted}
-            onAnswer={isCorrect ? correctAnswerHandler : wrongAnswerHandler}
-        />;
-    });
-
-    const { clef } = currentExercise.getSettings();
+    const { clef, optionType } = currentExercise.getSettings();
 
     return <>
         <ExerciseNav
             onStopExercise={props.onStopExercise}
             gradeTitle={props.exerciseSettings.grade.title}
-            sectionTitle={props.exerciseSettings.section.title}
+            sectionTitle={title}
         />
         <div id="exercise" className={classes.exercise}>
             <div className={classes["exercise__question"]}>
                 <h3>{currentExercise.getQuestion()}</h3>
                 <ScoreBox
+                    id="output"
                     notes={currentExercise.getNotes()}
                     clef={clef}
                     keyName={keyName}
@@ -100,13 +101,29 @@ const ExerciseSection = props => {
                 />
             </div>
             <div className={classes["exercise__options"]}>
-                <AnswerOptions
+                {optionType === "multiple" && <AnswerOptions
                     options={currentExercise.getOptions()}
                     answer={currentExercise.getAnswer()}
                     isCompleted={exerciseCompleted}
                     onCorrectAnswer={correctAnswerHandler}
                     onWrongAnswer={wrongAnswerHandler}
-                />
+                />}
+                {optionType === "interval" && <IntervalOptions
+                    answer={currentExercise.getAnswer()}
+                    isCompleted={exerciseCompleted}
+                    onCorrectAnswer={correctAnswerHandler}
+                    onWrongAnswer={wrongAnswerHandler}
+                    grade={grade}
+                />}
+                {optionType === "note" && <NoteOptions
+                    answer={currentExercise.getAnswer()}
+                    clef={clef}
+                    isCompleted={exerciseCompleted}
+                    onCorrectAnswer={correctAnswerHandler}
+                    onWrongAnswer={wrongAnswerHandler}
+                    grade={grade}
+                    options={currentExercise.getOptions()}
+                />}
             </div>
         </div>
         <ExerciseFooter

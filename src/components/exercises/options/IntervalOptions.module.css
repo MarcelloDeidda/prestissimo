@@ -1,0 +1,79 @@
+.interval-answer {
+    width: 50%;
+}
+
+.interval-answer-element {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.interval-answer-element label {
+    margin-right: 2rem;
+    font-size: 1.4rem;
+}
+
+.interval-answer-element select {
+    font-size: 1.2rem;
+    width: 9rem;
+    border-radius: 5px;
+}
+
+.interval-answer-element input {
+    width: 1.5rem;
+    border-radius: 5px;
+}
+
+.interval-answer-element input:checked {
+    accent-color: #765379;
+}
+
+.interval-answer-button {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #F8F9FA;
+    transition: 200ms;
+}
+
+.interval-answer-button:hover {
+    cursor: pointer;
+    background-color: #003358;
+    color: #F8F9FA;
+    border-color: #F8F9FA;
+    transform: scale(1.05);
+}
+
+.interval-answer-button__correct {
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #BEFFCE;
+}
+
+.interval-answer-button__correct:hover {
+    cursor: default;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #BEFFCE;
+    transform: none;
+}
+
+.interval-answer-button__wrong {
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #FFBECE;
+}
+
+.interval-answer-button__wrong:hover {
+    cursor: default;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #FFBECE;
+    transform: none;
+}

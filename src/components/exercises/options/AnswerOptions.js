@@ -1,5 +1,4 @@
-import OptionButton from "./OptionButton";
-
+import OptionButton from "../buttons/OptionButton";
 
 const AnswerOptions = props => {
     const optionButtons = props.options.map(option => {

@@ -1,0 +1,31 @@
+.grade-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grade-modal__button {
+    width: 75%;
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #F8F9FA;
+    transition: 200ms;
+}
+
+.grade-modal__button:hover {
+    cursor: pointer;
+    background-color: #003358;
+    color: #F8F9FA;
+    border-color: #F8F9FA;
+    transform: scale(1.05);
+}
+
+.grade-modal__title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #141414;
+}

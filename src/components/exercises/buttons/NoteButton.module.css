@@ -1,0 +1,68 @@
+.note-button {
+    width: 60%;
+    margin: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #F8F9FA;
+    transition: 200ms;
+}
+
+.note-button svg{
+    height: 100%;
+    width: 100%;
+    margin: none;
+}
+
+.note-button:hover {
+    cursor: pointer;
+    background-color: #003358;
+    color: #F8F9FA;
+    border-color: #F8F9FA;
+    transform: scale(1.05);
+}
+
+.note-button__correct {
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #BEFFCE;
+}
+
+.note-button__correct:hover {
+    cursor: default;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #BEFFCE;
+    transform: none;
+}
+
+.note-button__wrong {
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #FFBECE;
+}
+
+.note-button__wrong:hover {
+    cursor: default;
+    border: 1px solid #141414;
+    color: #141414;
+    background-color: #FFBECE;
+    transform: none;
+}
+
+.note-button__disabled {
+    border: 1px solid transparent;
+    color: #141414;
+    background-color: #F8F9FA;
+}
+
+.note-button__disabled:hover {
+    cursor: default;
+    background-color: #F8F9FA;
+    color: #141414;
+    transform: none;
+}

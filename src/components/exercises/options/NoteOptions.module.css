@@ -1,0 +1,16 @@
+.note-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    padding: 0 7rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.note-options button {
+    width: 10rem;
+    height: 10rem;
+    margin: none;
+}

@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import MainMenu from "./components/mainmenu/MainMenu";
+import { useState } from "react";
+import ExerciseSection from "./components/exercises/Exercise";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+  const [exerciseIsOn, setExerciseIsOn] = useState(false);
+  const [exerciseSettings, setExerciseSettings] = useState({});
+
+  const startExerciseHandler = (section, title, grade) => {
+    setExerciseSettings({ section, title, grade });
+    setExerciseIsOn(true);
+  }
+
+  const stopExerciseHandler = () => {
+    setExerciseSettings({});
+    setExerciseIsOn(false);
+  }
+
+  return exerciseIsOn ? <ExerciseSection
+    exerciseSettings={exerciseSettings}
+    onStopExercise={stopExerciseHandler}
+  /> : <MainMenu onStartExercise={startExerciseHandler} />
 }
 
 export default App;
