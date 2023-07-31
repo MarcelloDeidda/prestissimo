@@ -1,11 +1,11 @@
 import Note from "../../utils/notes/note";
 import Key from "../../utils/keys/key";
 import Exercise from "../exercise";
+import Interval from "../../utils/intervals/interval";
 
 import { getRandomNote, getRandomNoteFromScale, isNoteinRange, sortNotes } from "../../utils/notes/notes-functions";
 import { calculateInterval, calculateNoteFromInterval } from "../../utils/intervals/intervals-functions";
 import { getRandomClef, getClefBounds } from "../exercises-functions";
-import Interval from "../../utils/intervals/interval";
 
 const IntervalExercises = class {
     #grade;
