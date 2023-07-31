@@ -1,113 +1,86 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import classes from "./IntervalOptions.module.css";
+import useIntervalOptions from "../../../hooks/use-interval-options";
 
-const IntervalOptions = props => {
-    const [number, setNumber] = useState("unison");
-    const [quality, setQuality] = useState("perfect");
-    const [compound, setCompound] = useState(false);
-    const [isCorrect, setIscorrect] = useState();
+const IntervalOptions = ({ grade, isCompleted, correctAnswer, onCorrectAnswer, onWrongAnswer }) => {
+    // Initialise state and form options through custom hook
+    const [
+        intervalOptionState,
+        dispatchIntervalOption,
+        intervalNumberOptions,
+        intervalQualityOptions
+    ] = useIntervalOptions(grade);
 
-    let answer = `${compound ? "compound " : ""}${props.grade > 2 ? quality + " " : ""}${number}`
-    const { isCompleted } = props;
+    const { number, quality, compound, isCorrect } = intervalOptionState;
 
+    // Reset form
+    useEffect(() => {
+        if (!isCompleted) {
+            dispatchIntervalOption({ type: "RESET" });
+        }
+    }, [isCompleted, dispatchIntervalOption]);
+
+    // Define handlers
     const numberChangeHandler = e => {
-        setNumber(e.target.value);
+        dispatchIntervalOption({ type: "NUMBER_UPDATE", number: e.target.value });
     }
 
     const qualityChangeHandler = e => {
-        setQuality(e.target.value);
+        dispatchIntervalOption({ type: "QUALITY_UPDATE", quality: e.target.value });
     }
 
     const compoundChangeHandler = () => {
-        setCompound(prevState => !prevState);
-    }
-
-    useEffect(() => {
-        if (!isCompleted) {
-            setNumber("unison");
-            setQuality("perfect");
-            setCompound(false);
-        }
-    }, [isCompleted]);
-
-    const intervalNumbers = [
-        "unison",
-        "second",
-        "third",
-        "fourth",
-        "fifth",
-        "sixth",
-        "seventh",
-        "octave"
-    ];
-
-    const intervalNumberOptions = intervalNumbers.map(elem => {
-        return <option value={elem}>{elem}</option>;
-    })
-
-    const intervalQualities = [
-        "minor",
-        "perfect",
-        "major"
-    ];
-
-    if (props.grade > 3) {
-        intervalQualities.unshift("diminished");
-        intervalQualities.push("augmented");
-    }
-
-    const intervalQualityOptions = intervalQualities.map(elem => {
-        return <option value={elem}>{elem}</option>;
-    })
-
-    const intervalQualitySelect = <div className={classes["interval-answer-element"]}>
-        <label htmlFor="quality">Quality</label>
-        <select id="quality" value={quality} onChange={qualityChangeHandler} disabled={props.isCompleted}>
-            {intervalQualityOptions}
-        </select>
-    </div>
-
-    const compoundCheckbox = <div className={classes["interval-answer-element"]}>
-        <label htmlFor="compound">Compound</label>
-        <input id="compound" type="checkbox" checked={compound} onChange={compoundChangeHandler} disabled={props.isCompleted} />
-    </div>
-
-    let buttonClass = classes["interval-answer-button"];
-    let buttonText = "Answer";
-
-    if (props.isCompleted && isCorrect) {
-        buttonClass += ` ${classes["interval-answer-button__correct"]}`;
-        buttonText = "Correct!";
-    } else if (props.isCompleted && isCorrect === false) {
-        buttonClass += ` ${classes["interval-answer-button__wrong"]}`;
-        buttonText = props.answer;
+        dispatchIntervalOption({ type: "COMPOUND_TOGGLE" });
     }
 
     const submitHandler = e => {
         e.preventDefault();
 
-        if (props.isCompleted) {
+        let answer = `${compound ? "compound " : ""}${grade > 2 ? quality + " " : ""}${number}`;
+
+        if (isCompleted) {
             return;
         }
 
-        if (answer === props.answer) {
-            props.onCorrectAnswer();
-            setIscorrect(true);
+        if (answer === correctAnswer) {
+            onCorrectAnswer();
+            dispatchIntervalOption({ type: "CORRECT_ANSWER" })
         } else {
-            props.onWrongAnswer();
-            setIscorrect(false);
+            onWrongAnswer();
+            dispatchIntervalOption({ type: "WRONG_ANSWER" })
         }
     }
 
+    // Manage button
+    let buttonClass = classes["interval-answer-button"];
+    let buttonText = "Answer";
+
+    if (isCompleted && isCorrect) {
+        buttonClass += ` ${classes["interval-answer-button__correct"]}`;
+        buttonText = "Correct!";
+    } else if (isCompleted && isCorrect === false) {
+        buttonClass += ` ${classes["interval-answer-button__wrong"]}`;
+        buttonText = correctAnswer;
+    }
+
+    // Render children
     return <form className={classes["interval-answer"]} onSubmit={submitHandler}>
-        {props.grade > 2 && intervalQualitySelect}
+        {grade > 2 && <div className={classes["interval-answer-element"]}>
+            <label htmlFor="quality">Quality</label>
+            <select id="quality" value={quality} onChange={qualityChangeHandler} disabled={isCompleted}>
+                {intervalQualityOptions}
+            </select>
+        </div>}
         <div className={classes["interval-answer-element"]}>
             <label htmlFor="number">Number</label>
-            <select id="number" value={number} onChange={numberChangeHandler} disabled={props.isCompleted}>
+            <select id="number" value={number} onChange={numberChangeHandler} disabled={isCompleted}>
                 {intervalNumberOptions}
             </select>
         </div>
-        {props.grade > 4 && compoundCheckbox}
+        {grade > 4 && <div className={classes["interval-answer-element"]}>
+            <label htmlFor="compound">Compound</label>
+            <input id="compound" type="checkbox" checked={compound} onChange={compoundChangeHandler} disabled={isCompleted} />
+        </div>}
         <button className={buttonClass}>{buttonText}</button>
     </form>
 }

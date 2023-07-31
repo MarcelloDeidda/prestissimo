@@ -1,14 +1,14 @@
 import OptionButton from "../buttons/OptionButton";
 
-const AnswerOptions = props => {
-    const optionButtons = props.options.map(option => {
-        let isCorrect = option === props.answer;
+const AnswerOptions = ({ options, answer, isCompleted, onCorrectAnswer, onWrongAnswer }) => {
+    const optionButtons = options.map(option => {
+        let isCorrect = option === answer;
 
         return <OptionButton
             option={option}
             isCorrect={isCorrect}
-            isCompleted={props.isCompleted}
-            onAnswer={isCorrect ? props.onCorrectAnswer : props.onWrongAnswer}
+            isCompleted={isCompleted}
+            onAnswer={isCorrect ? onCorrectAnswer : onWrongAnswer}
         />;
     });
 

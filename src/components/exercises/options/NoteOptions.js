@@ -1,18 +1,18 @@
 import NoteButton from "../buttons/NoteButton";
 import classes from "./NoteOptions.module.css";
 
-const NoteOptions = props => {
-    const optionButtons = props.options.map(option => {
-        let isCorrect = option.getNote() === props.answer;
+const NoteOptions = ({ options, answer, clef, isCompleted, onCorrectAnswer, onWrongAnswer }) => {
+    const optionButtons = options.map(option => {
+        let isCorrect = option.getNote() === answer;
 
         return <NoteButton
             id={option.getNote()}
             key={option.getNote()}
             option={option}
-            clef={props.clef}
+            clef={clef}
             isCorrect={isCorrect}
-            isCompleted={props.isCompleted}
-            onAnswer={isCorrect ? props.onCorrectAnswer : props.onWrongAnswer}
+            isCompleted={isCompleted}
+            onAnswer={isCorrect ? onCorrectAnswer : onWrongAnswer}
         />;
     });
 
