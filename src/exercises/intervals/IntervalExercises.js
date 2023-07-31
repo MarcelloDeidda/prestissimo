@@ -2,7 +2,7 @@ import Note from "../../utils/notes/note";
 import Key from "../../utils/keys/key";
 import Exercise from "../exercise";
 
-import { getRandomNote, getRandomNoteFromScale, isNoteHigher, sortNotes } from "../../utils/notes/notes-functions";
+import { getRandomNote, getRandomNoteFromScale, isNoteinRange, sortNotes } from "../../utils/notes/notes-functions";
 import { calculateInterval, calculateNoteFromInterval } from "../../utils/intervals/intervals-functions";
 import { getRandomClef, getClefBounds } from "../exercises-functions";
 import Interval from "../../utils/intervals/interval";
@@ -28,10 +28,8 @@ const IntervalExercises = class {
             while (
                 !interval.isClassified() ||
                 interval.getDistance() > 14 ||
-                isNoteHigher(higherNote, note1) ||
-                isNoteHigher(note1, lowerNote) ||
-                isNoteHigher(higherNote, note2) ||
-                isNoteHigher(note2, lowerNote)
+                !isNoteinRange(lowerNote, note1, higherNote) ||
+                !isNoteinRange(lowerNote, note2, higherNote)
             ) {
                 note1 = getRandomNote(octaves[0], octaves[octaves.length - 1]);
                 note2 = getRandomNote(octaves[0], octaves[octaves.length - 1]);
@@ -53,10 +51,8 @@ const IntervalExercises = class {
             while (
                 !interval.isClassified() ||
                 interval.isCompound() ||
-                isNoteHigher(higherNote, note1) ||
-                isNoteHigher(note1, lowerNote) ||
-                isNoteHigher(higherNote, note2) ||
-                isNoteHigher(note2, lowerNote)
+                !isNoteinRange(lowerNote, note1, higherNote) ||
+                !isNoteinRange(lowerNote, note2, higherNote)
             ) {
                 tonic = new Note(`${key.getTonic()}${octaves[Math.floor(Math.random() * octaves.length)]}`);
                 note1 = getRandomNoteFromScale(key.getMode() === "major" ? key.getAscScale(tonic) : key.getAscScale(tonic).harmonic);
@@ -76,10 +72,8 @@ const IntervalExercises = class {
         while (
             interval.isCompound() ||
             note1.getNote() !== sortedNotes[0].getNote() ||
-            isNoteHigher(higherNote, note1) ||
-            isNoteHigher(note1, lowerNote) ||
-            isNoteHigher(higherNote, note2) ||
-            isNoteHigher(note2, lowerNote)
+            !isNoteinRange(lowerNote, note1, higherNote) ||
+            !isNoteinRange(lowerNote, note2, higherNote)
         ) {
             note1 = new Note(`${key.getTonic()}${octaves[Math.floor(Math.random() * octaves.length)]}`);
             note2 = getRandomNoteFromScale(key.getMode() === "major" ? key.getAscScale(note1) : key.getAscScale(note1).harmonic);
@@ -134,35 +128,31 @@ const IntervalExercises = class {
 
         const optionIntervals = [
             new Interval("augmented 1"),
-            new Interval("augmented 1", false),
             new Interval("diminished 2"),
-            new Interval("diminished 2", false),
             new Interval("minor 2"),
-            new Interval("minor 2", false),
             new Interval("major 2"),
-            new Interval("major 2", false),
-            new Interval("augmented 2"),
-            new Interval("augmented 2", false),
-            new Interval("minor 3"),
-            new Interval("minor 3", false),
+            new Interval("augmented 2")
         ];
 
         for (let i = 0; i < 3; i++) {
-            let optionNote = calculateNoteFromInterval(note2, optionIntervals[Math.floor(Math.random() * optionIntervals.length)]);
+            let asc = Math.floor(Math.random() * 2) === 0;
+            let optionNote = calculateNoteFromInterval(note2, optionIntervals[Math.floor(Math.random() * optionIntervals.length)], asc);
             const optionNotes = options.map(note => note.getNote());
 
             while (
                 optionNotes.includes(optionNote.getNote()) ||
-                optionNote.getLetterName() === "u"
+                optionNote.getLetterName() === "u" ||
+                (this.#grade < 4 && ["x", "B"].includes(optionNote.getAccidental()))
             ) {
-                optionNote = calculateNoteFromInterval(note2, optionIntervals[Math.floor(Math.random() * optionIntervals.length)]);
+                let asc = Math.floor(Math.random() * 2) === 0;
+                optionNote = calculateNoteFromInterval(note2, optionIntervals[Math.floor(Math.random() * optionIntervals.length)], asc);
             }
 
             options.push(optionNote);
         }
 
         options.sort(() => -0.5 + Math.random());
-
+ 
         const settings = {
             clef,
             showClef: true,
@@ -175,11 +165,11 @@ const IntervalExercises = class {
     getExerciseSet(grade) {
         const exercises = [];
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 6; i++) {
             exercises.push(this.findIntervalFromTwoNotes());
         }
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
             exercises.push(this.findNoteFromInterval());
         }
 
