@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 
-import ExerciseNav from "./UI/ExerciseNav";
 import ScoreBox from "./ScoreBox";
+
+import ExerciseNav from "./UI/ExerciseNav";
 import ExerciseFooter from "./UI/ExerciseFooter";
-import PitchExercises from "../../exercises/pitch/PitchExercises";
 import ResultModal from "./UI/ResultModal";
+
 import IntervalOptions from "./options/IntervalOptions";
 import AnswerOptions from "./options/AnswerOptions";
+import NoteOptions from "./options/NoteOptions";
+
+import IntervalExercises from "../../exercises/intervals/IntervalExercises";
+import PitchExercises from "../../exercises/pitch/PitchExercises";
 
 import classes from "./Exercise.module.css";
-import IntervalExercises from "../../exercises/intervals/IntervalExercises";
-import NoteOptions from "./options/NoteOptions";
 
 const ExerciseSection = props => {
     const grade = props.exerciseSettings.grade.grade;
@@ -25,26 +28,29 @@ const ExerciseSection = props => {
         case "intervals":
             exerciseBuilder = new IntervalExercises(grade);
             break;
+        default:
+            break;
     }
+    /*
+    
+    REDUCER will contain:
+    - exerciseSet
+    - currentExercise
+    - index
+    - exerciseCompleted
+    - sessionCompleted
+    
+    */
 
     const [exercises] = useState(exerciseBuilder.getExerciseSet(grade));
     const [index, setIndex] = useState(0)
     const [currentExercise, setCurrentExercise] = useState(exercises[0]);
-    const [keyName, setKeyName] = useState(undefined);
     const [exerciseCompleted, setExerciseComplete] = useState(false);
     const [sessionCompleted, setSessionCompleted] = useState(false);
 
     let result = exercises.reduce((a, b) => {
         return a + b.getResult()
     }, 0);
-
-    useEffect(() => {
-        if (currentExercise.getSettings().key !== undefined) {
-            setKeyName(currentExercise.getSettings().key.getTonic());
-        } else {
-            setKeyName(undefined);
-        }
-    }, [currentExercise, index]);
 
     useEffect(() => {
         const exerciseSection = document.getElementById("exercise");
@@ -82,6 +88,14 @@ const ExerciseSection = props => {
     }
 
     const { clef, optionType } = currentExercise.getSettings();
+
+    let keyName;
+
+    if (currentExercise.getSettings().key !== undefined) {
+        keyName = currentExercise.getSettings().key.getTonic();
+    } else {
+        keyName = undefined;
+    }
 
     return <>
         <ExerciseNav
