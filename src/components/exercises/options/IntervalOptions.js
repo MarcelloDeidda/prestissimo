@@ -51,7 +51,7 @@ const IntervalOptions = props => {
         "major"
     ];
 
-    if (props.grade > 4) {
+    if (props.grade > 3) {
         intervalQualities.unshift("diminished");
         intervalQualities.push("augmented");
     }
