@@ -1,13 +1,13 @@
 import classes from "./ExerciseFooter.module.css";
 
-const ExerciseFooter = props => {
+const ExerciseFooter = ({ index, length, isCompleted, onNextExercise }) => {
     return <footer className={classes["exercise-footer"]}>
-        <p>{props.index + 1}/{props.length}</p>
+        <p>{index + 1}/{length}</p>
         <button
-            disabled={!props.isCompleted}
-            onClick={props.onNextExercise}
+            disabled={!isCompleted}
+            onClick={onNextExercise}
         >
-            {props.index + 1 < props.length ? "Next >" : "Results >"}
+            {index + 1 < length ? "Next >" : "Results >"}
         </button>
     </footer>
 }

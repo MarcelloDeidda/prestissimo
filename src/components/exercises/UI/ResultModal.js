@@ -1,20 +1,22 @@
 import Modal from "../../UI/Modal";
 import classes from "./ResultModal.module.css";
 
-const ResultModal = props => {
-    let pass = props.result * 100 / props.length > 65;
+const ResultModal = ({ result, length, onStopExercise }) => {
+    let pass = result * 100 / length > 65;
+
+    let scoreClassName = `${classes["result-modal__score"]} ${pass ? classes["score-pass"] : classes["score-fail"]}`;
 
     return <Modal onClose={() => { }}>
         <div className={classes["result-modal"]}>
             <h2 className={classes["result-modal__title"]}>Session completed!</h2>
             <p
-                className={`${classes["result-modal__score"]} ${pass ? classes["score-pass"] : classes["score-fail"]}`}
+                className={scoreClassName}
             >
-                Score: {props.result}/{props.length}
+                Score: {result}/{length}
             </p>
             <button
                 className={classes["result-modal__button"]}
-                onClick={props.onStopExercise}
+                onClick={onStopExercise}
             >
                 Back to Main Menu
             </button>
