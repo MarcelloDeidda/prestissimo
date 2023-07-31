@@ -4,7 +4,6 @@ import { calculateInterval, calculateNoteFromInterval } from "../../utils/interv
 import { getAvailableClefs, getClefKeyAndNote, removeAccidentals } from "../exercises-functions";
 
 import Note from "../../utils/notes/note";
-import Key from "../../utils/keys/key";
 import Interval from "../../utils/intervals/interval";
 import Exercise from "../exercise";
 
@@ -112,7 +111,6 @@ const PitchExercises = class {
         newAccidental = accidentals[Math.floor(Math.random() * accidentals.length)];
 
         let note2 = new Note(`${note1.getLetterName()}${newAccidental}${note1.getOctave()}`);
-        console.log(accidentals)
 
         let question = `Is the second note higher or lower than the first?`;
 
