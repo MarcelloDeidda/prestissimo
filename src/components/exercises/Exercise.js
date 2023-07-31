@@ -10,7 +10,7 @@ import IntervalOptions from "./options/IntervalOptions";
 import AnswerOptions from "./options/AnswerOptions";
 import NoteOptions from "./options/NoteOptions";
 
-import { getInitialExerciseState, exerciseStateReducer } from "../../store/store";
+import { getInitialExerciseState, exerciseStateReducer } from "../../store/exercise-store";
 
 import classes from "./Exercise.module.css";
 
@@ -102,7 +102,7 @@ const ExerciseSection = props => {
                 />}
                 {optionType === "interval" && <IntervalOptions
                     grade={grade}
-                    answer={currentExercise.getAnswer()}
+                    correctAnswer={currentExercise.getAnswer()}
                     isCompleted={exerciseCompleted}
                     onCorrectAnswer={correctAnswerHandler}
                     onWrongAnswer={wrongAnswerHandler}
