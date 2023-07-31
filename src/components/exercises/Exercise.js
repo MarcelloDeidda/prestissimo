@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useReducer } from "react";
 
 import ScoreBox from "./ScoreBox";
 
@@ -10,83 +10,60 @@ import IntervalOptions from "./options/IntervalOptions";
 import AnswerOptions from "./options/AnswerOptions";
 import NoteOptions from "./options/NoteOptions";
 
-import IntervalExercises from "../../exercises/intervals/IntervalExercises";
-import PitchExercises from "../../exercises/pitch/PitchExercises";
+import { getInitialExerciseState, exerciseStateReducer } from "../../store/store";
 
 import classes from "./Exercise.module.css";
 
 const ExerciseSection = props => {
-    const grade = props.exerciseSettings.grade.grade;
-    const { title, section } = props.exerciseSettings.section;
+    // Fetch props
+    const { grade, title: gradeTitle } = props.exerciseSettings.grade;
+    const { section, title: sectionTitle } = props.exerciseSettings.section;
 
-    let exerciseBuilder;
+    // Initialise state
+    const [exerciseState, dispatchExercise] = useReducer(exerciseStateReducer, getInitialExerciseState(section, grade));
 
-    switch (section) {
-        case "pitch":
-            exerciseBuilder = new PitchExercises(grade);
-            break;
-        case "intervals":
-            exerciseBuilder = new IntervalExercises(grade);
-            break;
-        default:
-            break;
-    }
-    /*
-    
-    REDUCER will contain:
-    - exerciseSet
-    - currentExercise
-    - index
-    - exerciseCompleted
-    - sessionCompleted
-    
-    */
+    const {
+        exerciseSet,
+        index,
+        exerciseCompleted,
+        sessionCompleted,
+        score
+    } = exerciseState;
 
-    const [exercises] = useState(exerciseBuilder.getExerciseSet(grade));
-    const [index, setIndex] = useState(0)
-    const [currentExercise, setCurrentExercise] = useState(exercises[0]);
-    const [exerciseCompleted, setExerciseComplete] = useState(false);
-    const [sessionCompleted, setSessionCompleted] = useState(false);
+    const currentExercise = exerciseSet[index];
 
-    let result = exercises.reduce((a, b) => {
-        return a + b.getResult()
-    }, 0);
-
-    useEffect(() => {
-        const exerciseSection = document.getElementById("exercise");
-
-        exerciseSection.style.transform = "translateX(20rem)";
-        exerciseSection.style.opacity = "0";
-
-        setTimeout(() => {
-            setCurrentExercise(exercises[index]);
-
-            exerciseSection.style.transform = "none";
-            exerciseSection.style.opacity = "1";
-        }, 300);
-    }, [exercises, index]);
-
+    // Define handlers
     const correctAnswerHandler = () => {
-        setExerciseComplete(true);
-        currentExercise.answerWasCorrect();
+        dispatchExercise({ type: "CORRECT_ANSWER" });
     }
 
     const wrongAnswerHandler = () => {
-        setExerciseComplete(true);
-        currentExercise.answerWasWrong();
+        dispatchExercise({ type: "WRONG_ANSWER" });
     }
 
     const nextExerciseHandler = () => {
         if (exerciseCompleted) {
-            if (index < exercises.length - 1) {
-                setIndex(index => index + 1);
-                setExerciseComplete(false);
+            if (index < exerciseSet.length - 1) {
+                const exerciseSection = document.getElementById("exercise");
+
+                exerciseSection.style.transform = "translateX(20rem)";
+                exerciseSection.style.opacity = "0";
+
+                setTimeout(() => {
+                    dispatchExercise({ type: "UPDATE_INDEX" });
+
+                    exerciseSection.style.transform = "none";
+                    exerciseSection.style.opacity = "1";
+                }, 300);
             } else {
-                setSessionCompleted(true);
+                dispatchExercise({ type: "COMPLETE_SESSION" });
             }
+        } else {
+            return;
         }
     }
 
+    // Fetch exercise settings
     const { clef, optionType } = currentExercise.getSettings();
 
     let keyName;
@@ -97,11 +74,12 @@ const ExerciseSection = props => {
         keyName = undefined;
     }
 
+    // Render children
     return <>
         <ExerciseNav
             onStopExercise={props.onStopExercise}
-            gradeTitle={props.exerciseSettings.grade.title}
-            sectionTitle={title}
+            gradeTitle={gradeTitle}
+            sectionTitle={sectionTitle}
         />
         <div id="exercise" className={classes.exercise}>
             <div className={classes["exercise__question"]}>
@@ -123,33 +101,33 @@ const ExerciseSection = props => {
                     onWrongAnswer={wrongAnswerHandler}
                 />}
                 {optionType === "interval" && <IntervalOptions
+                    grade={grade}
                     answer={currentExercise.getAnswer()}
                     isCompleted={exerciseCompleted}
                     onCorrectAnswer={correctAnswerHandler}
                     onWrongAnswer={wrongAnswerHandler}
-                    grade={grade}
                 />}
                 {optionType === "note" && <NoteOptions
-                    answer={currentExercise.getAnswer()}
                     clef={clef}
+                    grade={grade}
+                    options={currentExercise.getOptions()}
+                    answer={currentExercise.getAnswer()}
                     isCompleted={exerciseCompleted}
                     onCorrectAnswer={correctAnswerHandler}
                     onWrongAnswer={wrongAnswerHandler}
-                    grade={grade}
-                    options={currentExercise.getOptions()}
                 />}
             </div>
         </div>
         <ExerciseFooter
             index={index}
-            length={exercises.length}
+            length={exerciseSet.length}
             isCompleted={exerciseCompleted}
             onNextExercise={nextExerciseHandler}
         />
         {sessionCompleted && <ResultModal
             onStopExercise={props.onStopExercise}
-            result={result}
-            length={exercises.length}
+            result={score}
+            length={exerciseSet.length}
         />}
     </>
 }
