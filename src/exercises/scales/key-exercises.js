@@ -1,14 +1,45 @@
-const { writeRandomMelody } = require("../../utils/melody/melody-functions");
-const { removeAccidentals } = require("../exercises-functions");
+import { writeRandomMelody } from "../../utils/melody/melody-functions";
+import { removeAccidentals, getRandomClef } from "../exercises-functions";
 
-const Key = require("../../utils/keys/key");
-const Note = require("../../utils/notes/note");
+import Key from "../../utils/keys/key";
+import Note from "../../utils/notes/note";
+import Exercise from "../exercise";
 
 const KeyExercises = class {
     #grade;
 
     constructor(grade) {
         this.#grade = grade;
+    }
+
+    findSignatureFromKey() {
+        const clef = getRandomClef(this.#grade);
+        const key = Key.getRandomMajorKey(this.#grade);
+
+        const answer = key.getTonic();
+        let question = `What is the key signature of ${key.getName()}`;
+        const options = [answer];
+
+        for (let i = 0; i < 3; i++) {
+            let option;
+            option = Key.getRandomMajorKey(this.#grade).getTonic();
+
+            while (options.includes(option)) {
+                option = Key.getRandomMajorKey(this.#grade).getTonic();
+            }
+
+            options.push(option);
+        }
+
+        options.sort(() => -0.5 + Math.random())
+
+        const settings = {
+            clef,
+            showClef: true,
+            optionType: "multiple"
+        }
+
+        return new Exercise(question, answer, options, settings, []);
     }
 
     findKeyFromSignature() {
@@ -24,26 +55,6 @@ const KeyExercises = class {
 
         question = `Name the ${key.getMode()} key that has this key signature: ${keySignature}`;
         answers = [key.getName()];
-
-        return {
-            question,
-            answers
-        }
-    }
-
-    findSignatureFromKey() {
-        const key = Key.getRandomKey(this.#grade);
-
-        let question, answers, keySignature;
-
-        if (key.getKeySignature().length > 0) {
-            keySignature = key.getKeySignature().join(" ");
-        } else {
-            keySignature = "none";
-        }
-
-        question = `Write the accidentals in the key signature of ${key.getName()}`;
-        answers = [keySignature];
 
         return {
             question,
@@ -105,6 +116,16 @@ const KeyExercises = class {
             answers
         }
     }
+
+    getExerciseSet(grade) {
+        const exercises = [];
+
+        for (let i = 0; i < 5; i++) {
+            exercises.push(this.findKeyFromSignature());
+        }
+
+        return exercises;
+    }
 }
 
-module.exports = KeyExercises;
+export default KeyExercises;

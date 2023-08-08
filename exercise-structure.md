@@ -4,7 +4,7 @@
 
 - **Name the note in both clefs (Could have key signature)**
 - **Add clef to make note right**
-- Tick higher note
+- **Tick higher note**
 
 ## Grade Two
 

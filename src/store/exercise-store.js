@@ -1,5 +1,6 @@
 import IntervalExercises from "../exercises/intervals/IntervalExercises";
 import PitchExercises from "../exercises/pitch/PitchExercises";
+import KeyExercises from "../exercises/scales/key-exercises";
 
 export const getInitialExerciseState = (section = "pitch", grade = 1) => {
     const state = {
@@ -17,6 +18,9 @@ export const getInitialExerciseState = (section = "pitch", grade = 1) => {
             break;
         case "intervals":
             exerciseBuilder = new IntervalExercises(grade);
+            break;
+        case "keys":
+            exerciseBuilder = new KeyExercises(grade);
             break;
         default:
             break;

@@ -10,7 +10,7 @@ const MainMenu = props => {
     const [partialSettings, setPartialSettings] = useState({});
 
     const openModalHandler = section => {
-        if (["rhythm", "keys", "terms"].includes(section.section)) {
+        if (["rhythm", "terms"].includes(section.section)) {
             return;
         }
         setPartialSettings({ section })
@@ -51,7 +51,7 @@ const MainMenu = props => {
             section={section.section}
             title={section.title}
             key={section.section}
-            disabled={["rhythm", "keys", "terms"].includes(section.section)}
+            disabled={["rhythm", "terms"].includes(section.section)}
         />
     });
 
