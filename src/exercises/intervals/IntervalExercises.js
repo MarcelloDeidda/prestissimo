@@ -1,10 +1,10 @@
-import Note from "../../utils/notes/note";
-import Key from "../../utils/keys/key";
+import Note from "music-theory/utils/notes/note";
+import Key from "music-theory/utils/keys/key";
+import Interval from "music-theory/utils/intervals/interval";
 import Exercise from "../exercise";
-import Interval from "../../utils/intervals/interval";
 
-import { getRandomNote, getRandomNoteFromScale, isNoteinRange, sortNotes } from "../../utils/notes/notes-functions";
-import { calculateInterval, calculateNoteFromInterval } from "../../utils/intervals/intervals-functions";
+import { getRandomNote, getRandomNoteFromScale, isNoteinRange, sortNotes } from "music-theory/utils/notes/notes-functions";
+import { calculateInterval, calculateNoteFromInterval } from "music-theory/utils/intervals/intervals-functions";
 import { getRandomClef, getClefBounds } from "../exercises-functions";
 
 const IntervalExercises = class {
@@ -96,7 +96,7 @@ const IntervalExercises = class {
             answer = `${interval.isCompound() ? "compound " : ""}${interval.getQuality()} ${interval.getNumber()}`;
         }
 
-        let question = "Name the following interval";
+        let question = "Name the following interval:";
 
         const settings = {
             clef,
@@ -116,11 +116,11 @@ const IntervalExercises = class {
         let question, answer;
 
         if (this.#grade < 3) {
-            question = `Find the note a ${interval.getNumber()} higher in the key of ${key.getName()}`
+            question = `Identify the note a ${interval.getNumber()} higher in the key of ${key.getName()}:`
         } else if (this.#grade < 4) {
-            question = `Find the note a ${interval.getNumber()} ${interval.getQuality()} higher`
+            question = `Identify the note a ${interval.getQuality()} ${interval.getNumber()} higher:`
         } else {
-            question = `Find the note a ${interval.isCompound() ? "compound " : ""}${interval.getNumber()} ${interval.getQuality()} ${asc ? "higher" : "lower"}`
+            question = `Identify the note a ${interval.getQuality()} ${interval.isCompound() ? "compound " : ""}${interval.getNumber()} ${asc ? "higher" : "lower"}:`
         }
 
         answer = note2.getNote();
