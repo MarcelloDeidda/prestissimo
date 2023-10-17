@@ -1,10 +1,10 @@
-import { chromaticScale } from "../../utils/notes/notes-utils";
-import { isNoteHigher, getRandomNote, getRandomNoteNoDouble, availableAccidentals } from "../../utils/notes/notes-functions";
-import { calculateInterval, calculateNoteFromInterval } from "../../utils/intervals/intervals-functions";
+import { chromaticScale } from "music-theory/utils/notes/notes-utils";
+import { isNoteHigher, getRandomNote, getRandomNoteNoDouble, availableAccidentals } from "music-theory/utils/notes/notes-functions";
+import { calculateInterval, calculateNoteFromInterval } from "music-theory/utils/intervals/intervals-functions";
 import { getAvailableClefs, getClefKeyAndNote, removeAccidentals } from "../exercises-functions";
 
-import Note from "../../utils/notes/note";
-import Interval from "../../utils/intervals/interval";
+import Note from "music-theory/utils/notes/note";
+import Interval from "music-theory/utils/intervals/interval";
 import Exercise from "../exercise";
 
 const PitchExercises = class {
@@ -83,7 +83,7 @@ const PitchExercises = class {
             noteName = noteName[0] + "\u{1D12B}";
         }
 
-        let question = `Choose a clef to make this note a ${noteName}`;
+        let question = `Choose a clef to make this note a ${noteName}:`;
         const options = getAvailableClefs(this.#grade);
 
         options.sort(() => -0.5 + Math.random())
