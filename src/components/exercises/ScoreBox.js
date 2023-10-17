@@ -16,7 +16,7 @@ const ScoreBox = props => {
     }
   }, [showClef, notes, clef, keyName]);
 
-  return <div className={classes.scorebox} id={id}></div>;
+  return <div data-cy={props.dataCy} className={classes.scorebox} id={id}></div>;
 }
 
 export default ScoreBox;

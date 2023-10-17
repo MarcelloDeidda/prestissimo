@@ -17,6 +17,7 @@ const ResultModal = ({ result, length, onStopExercise }) => {
             <button
                 className={classes["result-modal__button"]}
                 onClick={onStopExercise}
+                data-cy="result-modal-button"
             >
                 Back to Main Menu
             </button>

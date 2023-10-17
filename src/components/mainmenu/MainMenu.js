@@ -8,9 +8,9 @@ import { useState } from "react";
 const MainMenu = props => {
     const [showModal, setShowModal] = useState(false);
     const [partialSettings, setPartialSettings] = useState({});
-
+    
     const openModalHandler = section => {
-        if (["rhythm", "terms"].includes(section.section)) {
+        if (["rhythm", "terms", "keys"].includes(section.section)) {
             return;
         }
         setPartialSettings({ section })
@@ -51,15 +51,16 @@ const MainMenu = props => {
             section={section.section}
             title={section.title}
             key={section.section}
-            disabled={["rhythm", "terms"].includes(section.section)}
+            dataCy={section.section}
+            disabled={["rhythm", "terms", "keys"].includes(section.section)}
         />
     });
 
     return <div className={classes["main-menu"]}>
         <div className={classes["main-menu__title"]}>
-            <h1>Prestissimo</h1>
+            <h1 data-cy="title">Prestissimo</h1>
             <div>
-                <img src={logo} />
+                <img src={logo} data-cy="logo" />
             </div>
         </div>
         <div className={classes["main-menu__sections"]}>
@@ -73,5 +74,6 @@ const MainMenu = props => {
         />}
     </div>
 }
+
 
 export default MainMenu;

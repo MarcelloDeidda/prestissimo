@@ -83,16 +83,17 @@ const ExerciseSection = props => {
         />
         <div id="exercise" className={classes.exercise}>
             <div className={classes["exercise__question"]}>
-                <h3>{currentExercise.getQuestion()}</h3>
+                <h3 data-cy="question">{currentExercise.getQuestion()}</h3>
                 <ScoreBox
                     id="output"
                     notes={currentExercise.getNotes()}
                     clef={clef}
                     keyName={keyName}
                     showClef={currentExercise.getSettings().showClef}
+                    dataCy="score"
                 />
             </div>
-            <div className={classes["exercise__options"]}>
+            <div data-cy="options" className={classes["exercise__options"]}>
                 {optionType === "multiple" && <AnswerOptions
                     options={currentExercise.getOptions()}
                     answer={currentExercise.getAnswer()}

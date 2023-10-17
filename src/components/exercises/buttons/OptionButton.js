@@ -25,11 +25,14 @@ const OptionButton = props => {
     }
 
     let buttonClasses = `${classes["options-button"]}`;
+    let dataCy = "";
 
     if (isCompleted && isCorrect) {
         buttonClasses += " " + classes["options-button__correct"];
+        dataCy = "correct";
     } else if (wrongAnswer) {
         buttonClasses += " " + classes["options-button__wrong"];
+        dataCy = "wrong";
     } else if (isCompleted) {
         buttonClasses += " " + classes["options-button__disabled"];
     }
@@ -37,6 +40,7 @@ const OptionButton = props => {
     return <button
         className={buttonClasses}
         onClick={clickHandler}
+        data-cy={dataCy}
     >
         {buttonText}
     </button>;

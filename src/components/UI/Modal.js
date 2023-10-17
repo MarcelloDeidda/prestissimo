@@ -6,11 +6,17 @@ const Backdrop = props => {
     return <div
         className={classes.backdrop}
         onClick={props.onClose}
+        data-cy="modal-background"
     />
 }
 
 const ModalOverlay = props => {
-    return <div className={classes.modal}>{props.children}</div>
+    return <div
+        className={classes.modal}
+        data-cy="modal"
+    >
+        {props.children}
+    </div>
 }
 
 const portalElement = document.getElementById("overlays");

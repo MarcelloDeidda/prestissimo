@@ -7,6 +7,7 @@ const GradeModal = props => {
         props.onStartExercise(props.section, props.title, grade);
     }
 
+
     const grades = [
         {
             grade: 1,
@@ -37,6 +38,7 @@ const GradeModal = props => {
             section={grade.grade}
             title={grade.title}
             key={grade.grade}
+            dataCy={grade.grade}
         />
     });
 
