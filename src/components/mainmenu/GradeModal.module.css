@@ -29,3 +29,18 @@
     margin-bottom: 1rem;
     color: #141414;
 }
+
+@media (orientation: portrait) {
+    .grade-modal__button {
+        width: 75%;
+        margin: 1.5rem;
+        padding: 0.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .grade-modal__title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+        color: #141414;
+    }
+}

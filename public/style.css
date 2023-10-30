@@ -26,3 +26,11 @@ html {
         font-size: 12px;
     }
 }
+
+@media (orientation: portrait) {
+    #root {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+}
