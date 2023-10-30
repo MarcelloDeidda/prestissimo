@@ -8,7 +8,7 @@ import { useState } from "react";
 const MainMenu = props => {
     const [showModal, setShowModal] = useState(false);
     const [partialSettings, setPartialSettings] = useState({});
-    
+
     const openModalHandler = section => {
         if (["rhythm", "terms", "keys"].includes(section.section)) {
             return;
@@ -60,7 +60,11 @@ const MainMenu = props => {
         <div className={classes["main-menu__title"]}>
             <h1 data-cy="title">Prestissimo</h1>
             <div>
-                <img src={logo} data-cy="logo" />
+                <img
+                    className={classes["main-menu__title-logo"]}
+                    src={logo}
+                    data-cy="logo"
+                />
             </div>
         </div>
         <div className={classes["main-menu__sections"]}>
